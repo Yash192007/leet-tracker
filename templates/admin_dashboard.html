@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm mb-4">
+  <div class="card-body p-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h1 class="display-6 mb-2">Admin Dashboard</h1>
+        <p class="mb-0">Manage students and review class progress.</p>
+      </div>
+      <a class="btn btn-outline-secondary" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+</div>
+<div class="row g-4 align-items-stretch">
+  <div class="col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Easy</th>
+                <th>Medium</th>
+                <th>Hard</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in students %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+                <td>{{ student[4] }}</td>
+                <td>{{ student[5] }}</td>
+                <td>{{ student[6] }}</td>
+                <td>
+                  <form method="post" action="{{ url_for('remove_student') }}" onsubmit="return confirm('Remove this student?');">
+                    <input type="hidden" name="username" value="{{ student[2] }}">
+                    <button class="btn btn-sm btn-danger">Remove</button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title">Admin Summary</h4>
+        <div class="row text-center">
+          <div class="col-6 border-end py-3">
+            <h5>{{ total_students }}</h5>
+            <small>Total Students</small>
+          </div>
+          <div class="col-6 py-3">
+            <h5>{{ total_solved }}</h5>
+            <small>Total Solved</small>
+          </div>
+        </div>
+        <hr>
+        <div class="row text-center">
+          <div class="col-4 border-end">
+            <h6>{{ easy_solved }}</h6>
+            <small>Easy</small>
+          </div>
+          <div class="col-4 border-end">
+            <h6>{{ medium_solved }}</h6>
+            <small>Medium</small>
+          </div>
+          <div class="col-4">
+            <h6>{{ hard_solved }}</h6>
+            <small>Hard</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
